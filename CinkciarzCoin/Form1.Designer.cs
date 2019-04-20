@@ -245,7 +245,9 @@ namespace CinkciarzCoin
         }
 
         #endregion
-        private CurrencyGenerator CurrencyGenerator = new CurrencyGenerator();
+        private CurrencyGenerator currencyGenerator = new CurrencyGenerator();
+        private ExportData exportData = new ExportData();
+        private ValidatorTextBox validatorTextBox = new ValidatorTextBox();
         static private bool isRecording = false;
         static private bool isGenerate = false;
 

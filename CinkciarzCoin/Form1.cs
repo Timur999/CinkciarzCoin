@@ -23,7 +23,7 @@ namespace CinkciarzCoin
             isGenerate = true;
             while (true)
             {
-                ratesValue = CurrencyGenerator.GenerateCurrencyRate();
+                ratesValue = currencyGenerator.GenerateCurrencyRate();
                 ewhGenerationOperation.Set();
 
                 // Control.Invoke executes delegate by using the Thread that created the Control. (Invoke(delegate))
@@ -102,50 +102,14 @@ namespace CinkciarzCoin
 
         private void validateTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            List<string> splitedText = ((sender as TextBox).Text.Split('.')).ToList();
-
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
-
-            if (splitedText[0].Length >= 4 && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-
-            if (splitedText.Count == 2)
-            {
-                if (splitedText[1].Length >= 4 && !char.IsControl(e.KeyChar))
-                {
-                    e.Handled = true;
-                }
-            }
-
-            // deny '.' as a first char 
-            if (e.KeyChar == '.' && (sender as TextBox).Text == "")
-            {
-                e.Handled = true;
-            }
+            bool isNotValid = validatorTextBox.IsDoubleValidateTextBox(sender, e);
+            e.Handled = isNotValid;
         }
 
         private void notNullValidateTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) )
-            {
-                e.Handled = true;
-            }
-
-            if(!char.IsControl(e.KeyChar) &&(sender as TextBox).Text.Length  >= 4)
-            {
-                e.Handled = true;
-            }
+            bool isNotValid = validatorTextBox.NotNullValidateTextBox(sender, e);
+            e.Handled = isNotValid;
         }
 
         private void buttonRecording_Click(object sender, EventArgs e)
@@ -204,47 +168,9 @@ namespace CinkciarzCoin
         {
             if (ListOfRecordedCinkciarzCoins.Count > 0)
             {
-                bool isSuccess = await ExportDataToCsvFile();
+                bool isSuccess = await exportData.ExportDataToCsvFile(ListOfRecordedCinkciarzCoins);
                 if(isSuccess)
                     this.buttonSave.Visible = false;
-            }
-        }
-
-        private async Task<bool> ExportDataToCsvFile()
-        {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "*CSV|*csv", ValidateNames = true })
-            {
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    StringBuilder csvcontent = new StringBuilder();
-                    string csvpath = saveFileDialog.FileName;
-
-                    csvcontent.AppendLine("Purchase Price, Sales Price, Date of rate");
-                    foreach (Coin CoinDetail in ListOfRecordedCinkciarzCoins)
-                    {
-                        csvcontent.AppendLine(string.Format("{0},{1},{2}", CoinDetail.dtDateOfRate, CoinDetail.dPurchasePrice.ToString("0.0000"), CoinDetail.dSalesPrice.ToString("0.0000")));
-                    }
-
-                    using (StreamWriter sw = new StreamWriter(new FileStream(csvpath, FileMode.Create), Encoding.UTF8))
-                    {
-                        try
-                        {
-                            await sw.WriteLineAsync(csvcontent.ToString());
-                            ListOfRecordedCinkciarzCoins.Clear();
-                            MessageBox.Show("Your data has been successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.GetType().Name + " The write operation could not " +
-                                               "be performed because the specified " +
-                                                 "part of the file is locked.",
-                                                   "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        return false;
-                    }
-                }
-                return false;
             }
         }
 
@@ -266,7 +192,7 @@ namespace CinkciarzCoin
                 DialogResult userAnswer = MessageBox.Show("Your data will be lost. Do you want to save them?", "Note", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (userAnswer == DialogResult.Yes)
                 {
-                    await ExportDataToCsvFile();
+                    await exportData.ExportDataToCsvFile(ListOfRecordedCinkciarzCoins);
                     try
                     {
                         this.Dispose();
