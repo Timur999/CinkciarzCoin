@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CinkciarzCoin.Model;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -10,8 +11,6 @@ namespace CinkciarzCoin
         /// Wymagana zmienna projektanta.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-
 
 
         /// <summary>
@@ -39,9 +38,12 @@ namespace CinkciarzCoin
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.labelMaxSpread = new System.Windows.Forms.Label();
+            this.labelMaxSpreadDockedInChart = new System.Windows.Forms.Label();
+            this.labelNumGenPerSecDockedInChartValue = new System.Windows.Forms.Label();
+            this.labelNumGenPerSecDockedInChart = new System.Windows.Forms.Label();
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
-            this.labelMaxSpread = new System.Windows.Forms.Label();
             this.textBoxMaxSpread = new System.Windows.Forms.TextBox();
             this.labelmeanExchangeRate = new System.Windows.Forms.Label();
             this.textboxmeanExchangeRate = new System.Windows.Forms.TextBox();
@@ -50,8 +52,51 @@ namespace CinkciarzCoin
             this.chartRateCoin = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.buttonRecord = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.labelMaxSpreadDockedInChartValue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chartRateCoin)).BeginInit();
+            this.chartRateCoin.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // labelMaxSpread
+            // 
+            this.labelMaxSpread.AutoSize = true;
+            this.labelMaxSpread.Location = new System.Drawing.Point(19, 90);
+            this.labelMaxSpread.Name = "labelMaxSpread";
+            this.labelMaxSpread.Size = new System.Drawing.Size(82, 13);
+            this.labelMaxSpread.TabIndex = 2;
+            this.labelMaxSpread.Text = "Set max Spread";
+            // 
+            // labelMaxSpreadDockedInChartValue
+            // 
+            this.labelMaxSpreadDockedInChartValue.Location = new System.Drawing.Point(686, 93);
+            this.labelMaxSpreadDockedInChartValue.Name = "labelMaxSpreadDockedInChartValue";
+            this.labelMaxSpreadDockedInChartValue.Size = new System.Drawing.Size(44, 23);
+            this.labelMaxSpreadDockedInChartValue.TabIndex = 11;
+            this.labelMaxSpreadDockedInChartValue.Text = CurrencyGenerator.dMaxSpread.ToString();
+            // 
+            // labelMaxSpreadDockedInChart
+            // 
+            this.labelMaxSpreadDockedInChart.Location = new System.Drawing.Point(330, 80);
+            this.labelMaxSpreadDockedInChart.Name = "labelMaxSpreadDockedInChart";
+            this.labelMaxSpreadDockedInChart.Size = new System.Drawing.Size(44, 23);
+            this.labelMaxSpreadDockedInChart.TabIndex = 0;
+            this.labelMaxSpreadDockedInChart.Text = "Spread:";
+            // 
+            // labelNumGenPerSecDockedInChartValue
+            // 
+            this.labelNumGenPerSecDockedInChartValue.Location = new System.Drawing.Point(686, 123);
+            this.labelNumGenPerSecDockedInChartValue.Name = "labelNumGenPerSecDockedInChartValue";
+            this.labelNumGenPerSecDockedInChartValue.Size = new System.Drawing.Size(44, 23);
+            this.labelNumGenPerSecDockedInChartValue.TabIndex = 10;
+            this.labelNumGenPerSecDockedInChartValue.Text = CurrencyGenerator.iNumberOfGenerationPerSec.ToString();
+            // 
+            // labelNumGenPerSecDockedInChart
+            // 
+            this.labelNumGenPerSecDockedInChart.Location = new System.Drawing.Point(616, 119);
+            this.labelNumGenPerSecDockedInChart.Name = "labelNumGenPerSecDockedInChart";
+            this.labelNumGenPerSecDockedInChart.Size = new System.Drawing.Size(64, 37);
+            this.labelNumGenPerSecDockedInChart.TabIndex = 0;
+            this.labelNumGenPerSecDockedInChart.Text = "Generations per sec";
             // 
             // buttonStart
             // 
@@ -74,22 +119,12 @@ namespace CinkciarzCoin
             this.buttonStop.UseVisualStyleBackColor = true;
             this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
             // 
-            // labelMaxSpread
-            // 
-            this.labelMaxSpread.AutoSize = true;
-            this.labelMaxSpread.Location = new System.Drawing.Point(19, 90);
-            this.labelMaxSpread.Name = "labelMaxSpread";
-            this.labelMaxSpread.Size = new System.Drawing.Size(82, 13);
-            this.labelMaxSpread.TabIndex = 2;
-            this.labelMaxSpread.Text = "Set max Spread";
-            // 
             // textBoxMaxSpread
             // 
             this.textBoxMaxSpread.Location = new System.Drawing.Point(22, 106);
             this.textBoxMaxSpread.Name = "textBoxMaxSpread";
             this.textBoxMaxSpread.Size = new System.Drawing.Size(100, 20);
             this.textBoxMaxSpread.TabIndex = 3;
-            this.textBoxMaxSpread.Text = maxSpread.ToString();
             this.textBoxMaxSpread.TextChanged += new System.EventHandler(this.setValueTextBox_TextChanged);
             this.textBoxMaxSpread.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateTextBox_KeyPress);
             // 
@@ -108,7 +143,6 @@ namespace CinkciarzCoin
             this.textboxmeanExchangeRate.Name = "textboxmeanExchangeRate";
             this.textboxmeanExchangeRate.Size = new System.Drawing.Size(100, 20);
             this.textboxmeanExchangeRate.TabIndex = 5;
-            this.textboxmeanExchangeRate.Text = meanExchangeRate.ToString();
             this.textboxmeanExchangeRate.TextChanged += new System.EventHandler(this.setValueTextBox_TextChanged);
             this.textboxmeanExchangeRate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateTextBox_KeyPress);
             // 
@@ -127,7 +161,6 @@ namespace CinkciarzCoin
             this.textBoxnumberOfGenerationPerSec.Name = "textBoxnumberOfGenerationPerSec";
             this.textBoxnumberOfGenerationPerSec.Size = new System.Drawing.Size(100, 20);
             this.textBoxnumberOfGenerationPerSec.TabIndex = 7;
-            this.textBoxnumberOfGenerationPerSec.Text = numberOfGenerationPerSec.ToString();
             this.textBoxnumberOfGenerationPerSec.TextChanged += new System.EventHandler(this.setValueTextBox_TextChanged);
             this.textBoxnumberOfGenerationPerSec.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.notNullValidateTextBox_KeyPress);
             // 
@@ -138,6 +171,7 @@ namespace CinkciarzCoin
             chartArea1.BackColor = System.Drawing.Color.Transparent;
             chartArea1.Name = "CinkciarzCoinChartArea";
             this.chartRateCoin.ChartAreas.Add(chartArea1);
+            this.chartRateCoin.Controls.Add(this.labelMaxSpreadDockedInChart);
             legend1.Name = "Legend1";
             this.chartRateCoin.Legends.Add(legend1);
             this.chartRateCoin.Location = new System.Drawing.Point(286, 13);
@@ -156,7 +190,7 @@ namespace CinkciarzCoin
             series2.Name = "Sales rate";
             this.chartRateCoin.Series.Add(series1);
             this.chartRateCoin.Series.Add(series2);
-            this.chartRateCoin.Size = new System.Drawing.Size(461, 360);
+            this.chartRateCoin.Size = new System.Drawing.Size(461, 366);
             this.chartRateCoin.TabIndex = 8;
             this.chartRateCoin.Text = "CinkciarzCoinChart";
             // 
@@ -186,7 +220,10 @@ namespace CinkciarzCoin
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelMaxSpreadDockedInChartValue);
             this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.labelNumGenPerSecDockedInChart);
+            this.Controls.Add(this.labelNumGenPerSecDockedInChartValue);
             this.Controls.Add(this.buttonRecord);
             this.Controls.Add(this.chartRateCoin);
             this.Controls.Add(this.textBoxnumberOfGenerationPerSec);
@@ -201,23 +238,23 @@ namespace CinkciarzCoin
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.chartRateCoin)).EndInit();
+            this.chartRateCoin.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private float maxSpread = 0.4f;
-        private float meanExchangeRate = 3.5f;
-        private int numberOfGenerationPerSec = 1;
-        private bool isGenerate = false;
-        private bool isRecording = false;
+        CurrencyGenerator CurrencyGenerator = new CurrencyGenerator();
+        static private bool isRecording = false;
+        static public bool isGenerate = false;
 
         private Button buttonStart;
         private Button buttonStop;
         private Button buttonSave;
         private Button buttonRecord;
+
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartRateCoin;
 
         private Label labelMaxSpread;
         private TextBox textBoxMaxSpread;
@@ -225,11 +262,19 @@ namespace CinkciarzCoin
         private TextBox textboxmeanExchangeRate;
         private Label labelnumberOfGenerationPerSec;
         private TextBox textBoxnumberOfGenerationPerSec;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartRateCoin;
+        private Label labelMaxSpreadDockedInChart;
+        private Label labelNumGenPerSecDockedInChartValue;
+        private Label labelNumGenPerSecDockedInChart;
+        private Label labelMaxSpreadDockedInChartValue;
 
         private Thread ThreadGenerateCoinRates;
+        private Thread ThreadRecordCoinRates;
 
+        private static Dictionary<string, double> ratesValue = new Dictionary<string, double>();
         private List<Coin> ListOfRecordedCinkciarzCoins = new List<Coin>();
+
+        private static EventWaitHandle ewhGenerationOperation = new AutoResetEvent(false);
+
 
     }
 }
