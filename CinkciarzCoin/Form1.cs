@@ -204,13 +204,13 @@ namespace CinkciarzCoin
         {
             if (ListOfRecordedCinkciarzCoins.Count > 0)
             {
-                bool isSuccess = await SaveDataToFile();
+                bool isSuccess = await ExportDataToCsvFile();
                 if(isSuccess)
                     this.buttonSave.Visible = false;
             }
         }
 
-        private async Task<bool> SaveDataToFile()
+        private async Task<bool> ExportDataToCsvFile()
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "*CSV|*csv", ValidateNames = true })
             {
@@ -259,14 +259,14 @@ namespace CinkciarzCoin
             chartRateCoin.Series["Purchase rate"].Points.LastOrDefault().Label = purchaseRateValueY.ToString("F4", CultureInfo.InvariantCulture);
         }
 
-        private void Form_Closing(object sender, FormClosingEventArgs e)
+        private async void Form_Closing(object sender, FormClosingEventArgs e)
         {
             if (ListOfRecordedCinkciarzCoins.Count > 0)
             {
                 DialogResult userAnswer = MessageBox.Show("Your data will be lost. Do you want to save them?", "Note", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (userAnswer == DialogResult.Yes)
                 {
-                    SaveDataToFile();
+                    await ExportDataToCsvFile();
                     try
                     {
                         this.Dispose();

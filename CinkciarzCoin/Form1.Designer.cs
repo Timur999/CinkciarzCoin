@@ -245,9 +245,9 @@ namespace CinkciarzCoin
         }
 
         #endregion
-        CurrencyGenerator CurrencyGenerator = new CurrencyGenerator();
+        private CurrencyGenerator CurrencyGenerator = new CurrencyGenerator();
         static private bool isRecording = false;
-        static public bool isGenerate = false;
+        static private bool isGenerate = false;
 
         private Button buttonStart;
         private Button buttonStop;
